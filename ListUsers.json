@@ -65,15 +65,7 @@
             "description" : "Permission denied"
           },
           "400" : {
-            "description" : "Page requested does not exist",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "type" : "object",
-                  "additionalProperties" : true
-                }
-              }
-            }
+            "description" : "Bad request, not matching request criteria."
           }
         }
       }
