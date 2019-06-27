@@ -102,14 +102,18 @@
       "Error" : {
         "type" : "object",
         "properties" : {
-          "code" : {
-            "type" : "string"
+          "reason" : {
+            "type" : "string",
+            "enum" : [ "BAD REQUEST", "UNATHORISED", "NOT FOUND" ]
           },
           "message" : {
             "type" : "string"
+          },
+          "path" : {
+            "type" : "string"
           }
         },
-        "required" : [ "code", "message" ]
+        "required" : [ "reason", "message", "path" ]
       }
     }
   }
