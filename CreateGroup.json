@@ -100,7 +100,7 @@
             "type" : "string"
           }
         },
-        "required" : [ "code", "message", "path" ]
+        "required" : [ "reason", "message", "path" ]
       }
     }
   }
