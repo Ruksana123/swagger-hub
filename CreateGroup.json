@@ -91,7 +91,7 @@
         "properties" : {
           "reason" : {
             "type" : "string",
-            "enum" : [ "BAD REQUEST", "UNATHORISED", "NOT FOUND" ]
+            "enum" : [ "BAD REQUEST", "UNATHORISED" ]
           },
           "message" : {
             "type" : "string"
