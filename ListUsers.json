@@ -33,7 +33,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "Returns a list of users with pagination and sorting.",
+            "description" : "1. Returns a list of users with pagination and sorting.\n2. Returns empty list if requested pageOffset goes out of bounds 10 <= pageOffset <= 200. \n",
             "content" : {
               "application/json" : {
                 "schema" : {
