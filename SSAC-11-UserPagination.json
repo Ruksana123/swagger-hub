@@ -1,0 +1,88 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "0.0.1",
+    "title" : "Pagination For List of Users.",
+    "description" : "Client must be able to specify how many users they want and from where in the list they want them."
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/happiestminds4/SSAC-11-Pagination/0.0.1"
+  }, {
+    "description" : "Admin center dev server",
+    "url" : "https://dev.admincenterapp.com/v1"
+  }, {
+    "description" : "Admin center QA server",
+    "url" : "https://qa.admincenterapp.com/v1"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "summary" : "Returns a list of users.",
+        "description" : "Returns a list of users in a paginated way.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageOffsetParam"
+        }, {
+          "$ref" : "#/components/parameters/pageSizeParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "JSON array of users",
+            "content" : {
+              "x-next-page-offset" : {
+                "schema" : {
+                  "type" : "integer",
+                  "description" : "indicates next available offet/page index. offet/page index = -1 to indicate end of pagination."
+                }
+              },
+              "x-page-size" : {
+                "schema" : {
+                  "type" : "integer",
+                  "minimum" : 1,
+                  "description" : "page size being used in current fetch. [optional if fixed page size]"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Page requested does not exist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "parameters" : {
+      "pageOffsetParam" : {
+        "in" : "query",
+        "name" : "pageOffset",
+        "required" : false,
+        "schema" : {
+          "type" : "integer",
+          "minimum" : 0
+        },
+        "description" : "The number of pages to skip before starting to collect the result set. (optional parameter)"
+      },
+      "pageSizeParam" : {
+        "in" : "query",
+        "name" : "pageSize",
+        "required" : false,
+        "schema" : {
+          "type" : "integer",
+          "minimum" : 10,
+          "maximum" : 200,
+          "default" : 20
+        },
+        "description" : "The numbers of items to return.(optional parameter)"
+      }
+    }
+  }
+}
