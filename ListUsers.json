@@ -1,0 +1,182 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "0.0.1",
+    "title" : "Get user list with pagination and sorting.",
+    "description" : "Get user list with pagination and sorting."
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/happiestminds4/Get_user_list_by_pagination_and_sorting/0.0.1"
+  }, {
+    "description" : "Admin center server",
+    "url" : "https://admincenterapp.com/v1"
+  } ],
+  "tags" : [ {
+    "name" : "Users",
+    "description" : "Operations about users"
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Returns a list of users with pagination and sorting.",
+        "description" : "Returns a list of users with pagination and sorting.",
+        "parameters" : [ {
+          "$ref" : "#/components/parameters/pageOffsetParam"
+        }, {
+          "$ref" : "#/components/parameters/pageSizeParam"
+        }, {
+          "$ref" : "#/components/parameters/sortByParam"
+        }, {
+          "$ref" : "#/components/parameters/sortOrderParam"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a list of users with pagination and sorting.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              },
+              "x-next-page-offset" : {
+                "schema" : {
+                  "type" : "integer",
+                  "description" : "indicates next available pageOffset index. pageOffset index = -1 to indicate end of pagination."
+                }
+              },
+              "x-page-size" : {
+                "schema" : {
+                  "type" : "integer",
+                  "minimum" : 1,
+                  "description" : "page size being used in current fetch. [* optional* if fixed page size]"
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Empty list."
+          },
+          "403" : {
+            "description" : "Permission denied"
+          },
+          "400" : {
+            "description" : "Page requested does not exist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "required" : [ "firstName", "lastName", "emailAddress" ],
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "profilePicture" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "emailAddress" : {
+            "type" : "string"
+          },
+          "userRoles" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/OrganisationUserRole"
+            }
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "PENDING", "ACTIVE", "DECLINED" ]
+          }
+        }
+      },
+      "OrganisationUserRole" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "organizationId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "roleName" : {
+            "type" : "string",
+            "enum" : [ "LICENSED_ADMIN", "RESOURCE_VIEWER", "GROUP_ADMIN", "SYSTEM_ADMIN", "JIRA_ADMIN", "SALESFORCE_ADMIN", "MEMBER", "JIRA_USER", "SALESFORCE_USER", "NONE" ]
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "pageOffsetParam" : {
+        "in" : "query",
+        "name" : "pageOffset",
+        "required" : false,
+        "schema" : {
+          "type" : "integer",
+          "minimum" : 0
+        },
+        "description" : "The number of pages to skip before starting to collect the result set. (`optional`)"
+      },
+      "pageSizeParam" : {
+        "in" : "query",
+        "name" : "pageSize",
+        "required" : false,
+        "schema" : {
+          "type" : "integer",
+          "minimum" : 10,
+          "maximum" : 200,
+          "default" : 20
+        },
+        "description" : "The numbers of items to return. (`optional`)"
+      },
+      "sortByParam" : {
+        "in" : "query",
+        "name" : "sortBy",
+        "required" : false,
+        "schema" : {
+          "type" : "string",
+          "enum" : [ "NAME", "EMAIL_ADDRESS" ]
+        },
+        "description" : "sortBy param indicates the property on which sorting has to be done. (`optional`)\n\n sortBy on \"NAME\" property indicates sorting first by firstName, then lastName and then emailAddress. \n  \n sortBy on \"EMAIL_ADDRESS\" property indicates sorting first by emailAddress, then createdDateTime.\n  \n"
+      },
+      "sortOrderParam" : {
+        "in" : "query",
+        "name" : "sortOrder",
+        "required" : false,
+        "schema" : {
+          "type" : "string",
+          "enum" : [ "ASCENDING", "DESCENDING" ]
+        },
+        "description" : "sortOrder param indicates the order for sorting.   (`optional`)"
+      }
+    }
+  }
+}
